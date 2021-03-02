@@ -26,7 +26,7 @@ You may also choose to self-host the javascript and CSS parts.  In order to spec
 Poke.sh assumes that the template you are modifying already has a block for Disqus chatting.  It uses this as an anchor to figure out where to inject cactus.chat
 If the template didn't include Disqus, then you'll have to manually do it.
 
-## How to I use this?
+## How do I use this?
 
 1. Clone the repo to your location of choice
 2. `cd /path/to/your/pelican/theme/template`
