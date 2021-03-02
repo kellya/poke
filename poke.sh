@@ -11,7 +11,7 @@
 # If for some reason your theme has different names for those files, specify them in the argumenst with the first being base and second being article
 
 # Figure out what arguments were given.  If we were given none, assume base.html and article.html,
-# otherwise we need to, one for base and one for article, in that order
+# otherwise we need two, one for base and one for article, in that order
 if [[ $# -eq 0 ]]; then
     echo "Arguments not specified, assuming base.html and article.html"
     BASE_HTML='base.html'
