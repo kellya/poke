@@ -3,7 +3,7 @@
 ## What is it?
 There are two parts, the first is the cactus_script.html that has all of the template content needed to make it work, and the poke.sh which is a simple script to automatically inject the template changes needed to make use of cactus_script.html.
 
-You must first register a site with (cactus.chat)[https://cactus.chat] (or your own host if you are self-hosting).  Then you may modify pelican templates to make use of the cactus_script.html indcluded in this repo
+You must first register a site with [cactus.chat](https://cactus.chat) (or your own host if you are self-hosting).  Then you may modify pelican templates to make use of the cactus_script.html indcluded in this repo
 
 ## Important template variables
 
