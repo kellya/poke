@@ -25,23 +25,22 @@ else
 fi
 
 # Determine if the theme has already been patched and exit if so
-grep -q "CACTUS_SITENAME" $BASE_HTML $ARTICLE_HTML
-if [ $? -eq 0 ]; then
+if ! grep -q "CACTUS_SITENAME" "$BASE_HTML" "$ARTICLE_HTML"; then
     echo "It looks like this theme already has been modified"
     exit 1
 fi
 
 # Attempt to do the template modifies with cactus comment stuff
 echo "Attempting to inject the cactus_script.html indlude in $BASE_HTML"
-sed -i '/^.*<\/body>.*/i \{\% include "cactus_script.html" \%\}' $BASE_HTML
+sed -i '/^.*<\/body>.*/i \{\% include "cactus_script.html" \%\}' "$BASE_HTML"
 echo "Attempting to inject the comment div in $ARTICLE_HTML"
-sed  -ie '/^.*if DISQUS_SITENAME.*/i \{\% if CACTUS_SITENAME \%\}\n\t<div id="comment-section"></div>\n\{\% endif \%\}' $ARTICLE_HTML
+sed  -ie '/^.*if DISQUS_SITENAME.*/i \{\% if CACTUS_SITENAME \%\}\n\t<div id="comment-section"></div>\n\{\% endif \%\}' "$ARTICLE_HTML"
 
 # Check if the cactus_script.html has already been placed in the templates dir, if not copy from wherever poke.sh was called.
 if [[ -f cactus_script.html ]]; then
     echo "You've already got the cactus_script.html included, so you are good to go"
 else
     echo "Copying cactus_script.html to this directory"
-    CP_DIR=$(dirname $0)
-    cp $CP_DIR/cactus_script.html .
+    CP_DIR=$(dirname "$0")
+    cp "$CP_DIR"/cactus_script.html .
 fi
