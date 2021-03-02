@@ -25,7 +25,7 @@ else
 fi
 
 # Determine if the theme has already been patched and exit if so
-if ! grep -q "CACTUS_SITENAME" "$BASE_HTML" "$ARTICLE_HTML"; then
+if  grep -q "CACTUS_SITENAME" "$BASE_HTML" "$ARTICLE_HTML"; then
     echo "It looks like this theme already has been modified"
     exit 1
 fi
