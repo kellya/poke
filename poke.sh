@@ -34,7 +34,7 @@ fi
 echo "Attempting to inject the cactus_script.html indlude in $BASE_HTML"
 sed -i '/^.*<\/body>.*/i \{\% include "cactus_script.html" \%\}' "$BASE_HTML"
 echo "Attempting to inject the comment div in $ARTICLE_HTML"
-sed  -ie '/^.*if DISQUS_SITENAME.*/i \{\% if CACTUS_SITENAME \%\}\n\t<div id="comment-section"></div>\n\{\% endif \%\}' "$ARTICLE_HTML"
+sed  -ie '/^.*{.*if DISQUS_SITENAME \%}/i \{\% if CACTUS_SITENAME \%\}\n\t<div id="comment-section"></div>\n\{\% endif \%\}' "$ARTICLE_HTML"
 
 # Check if the cactus_script.html has already been placed in the templates dir, if not copy from wherever poke.sh was called.
 if [[ -f cactus_script.html ]]; then
