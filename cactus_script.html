@@ -1,0 +1,26 @@
+{% if CACTUS_SITENAME -%}
+    {% if CACTUS_JS_URL is not defined %}
+        {% set CACTUS_JS_URL = 'https://latest.cactus.chat/cactus.js' %}
+    {% endif %}
+    {% if CACTUS_CSS_URL is not defined %}
+        {% set CACTUS_CSS_URL = 'https://latest.cactus.chat/style.css' %}
+    {% endif %}
+    {% if CACTUS_HOMESERVER is not defined %}
+        {% set CACTUS_HOMESERVER = 'https://matrix.cactus.chat:8448' %}
+    {% endif %}
+    {% if CACTUS_SERVERNAME is not defined %}
+        {% set CACTUS_SERVERNAME = 'cactus.chat' %}
+    {% endif %}
+    <script type="text/javascript" src="{{ CACTUS_JS_URL }}"></script>
+    <link rel="stylesheet" href="{{ CACTUS_CSS_URL }}" type="text/css">
+
+<script>
+initComments({
+  node: document.getElementById("comment-section"),
+    defaultHomeserverUrl: "{{CACTUS_HOMESERVER}}",
+    serverName: "{{CACTUS_SERVERNAME}}",
+    siteName: "{{CACTUS_SITENAME}}",
+    commentSectionId: "{{output_file}}"
+})
+</script>
+{%- endif %}
