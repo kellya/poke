@@ -12,8 +12,11 @@ In your pelicanconf.py, you will need at least the `CACTUS_SITNAME` variable set
 ### Self-hosting
 
 If you are self-hosting you must set the following variables
+
 `CACTUS_SITNAME` to the site you registered with your cactuschat bot.
+
 `CACTUS_SERVERNAME` to the base sitename (the "domain.com" part of the @user:domain.com of your user IDs)
+
 `CACTUS_HOMESERVER` to the URL of your homeserver
 
 You may also choose to self-host the javascript and CSS parts.  In order to specify those URLs you would set `CACTUS_JS_URL` and `CACTUS_CSS_URL` respectively
@@ -24,6 +27,7 @@ Poke.sh assumes that the template you are modifying already has a block for Disq
 If the template didn't include Disqus, then you'll have to manually do it.
 
 ## How to I use this?
+
 1. Clone the repo to your location of choice
 2. `cd /path/to/your/pelican/theme/template`
 3. Run the poke.sh command from this directory with `/path/to/poke.sh`.
@@ -35,7 +39,9 @@ If poke.sh worked, you shouldn't need to read this section, but if something wen
 
 1. Copy the cactus_script.html to the template directory
 2. Modify the base.html and add the following at the bottom of the html, but before the `</body>`
+
     `{% include "cactus_script.html" %}`
+
 3. Modify the article.html and put the following at the location at which you want the comments to show up in the page
     ```
     {% if CACTUS_SITENAME %}
