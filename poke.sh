@@ -25,9 +25,14 @@ else
 fi
 
 # Determine if the theme has already been patched and exit if so
-if  grep -q "CACTUS_SITENAME" "$BASE_HTML" "$ARTICLE_HTML"; then
-    echo "It looks like this theme already has been modified"
-    exit 1
+if [[ -f "$BASE_HTML" ]] && [[ -f "$ARTICLE_HTML" ]]; then
+    if  grep -q "cactus_script.html" "$BASE_HTML" ||  grep -q "CACTUS_SITENAME" "$ARTICLE_HTML"; then
+        echo "It looks like this theme already has been modified"
+        exit 1
+    fi
+else
+    echo "Both base.html and article.html must exist"
+    exit 3
 fi
 
 # Attempt to do the template modifies with cactus comment stuff
