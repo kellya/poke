@@ -1,7 +1,7 @@
 # poke.sh
 
 ## What is it?
-There are two parts, the first is the cactus_script.html that has all of the theme template content needed to make it work, and the poke.sh which is a simple script to automatically inject the template changes needed to make use of cactus_script.html.
+There are two parts, the first is the cactus_script.html that has all of the theme template content needed to make it work, and the poke.sh which is a shell script to automatically inject the template changes needed to make use of cactus_script.html.
 
 You must first register a site with [cactus.chat](https://cactus.chat) (or your own host if you are self-hosting).  Then you may modify pelican templates to make use of the cactus_script.html indcluded in this repo
 
@@ -25,6 +25,8 @@ You may also choose to self-host the JavaScript and CSS parts.  In order to spec
 
 Poke.sh assumes that the theme you are modifying already has a block for Disqus chatting.  It uses this as an anchor to figure out where to inject cactus.chat
 If the theme templates don't include Disqus, then you'll have to manually do it.
+
+It uses the `{{output_file}}` template variable to create a unique comment section for each page.  Whatever your pelican outputs as page.html will be the address generated for each post.  Typically that would be the title of the page, or the slug.  So if you have a page with the title "this is a test", that will create 'output/this-is-a-test.html'.  The cactus_script.html will generate a room id like `#comments_your.domain_this-is-a-test.html:yourhomeserver.domain`
 
 ## How do I use this?
 
