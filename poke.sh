@@ -12,6 +12,31 @@
 
 # Figure out what arguments were given.  If we were given none, assume base.html and article.html,
 # otherwise we need two, one for base and one for article, in that order
+file_patched () {
+    # Check either base or article, and return 0 if the modification text has been found
+    # or nonzero if the text doesn't exist
+    case $1 in
+        'base')
+            if grep -q "cactus_script.html" "$BASE_HTML";then
+                return 0
+            else
+                return 101
+            fi
+            ;;
+        'article')
+            if grep -q "CACTUS_SITENAME" "$ARTICLE_HTML"; then
+                return 0
+            else
+                return 102
+            fi
+            ;;
+        *)
+            echo "Error file_patched not called correctly"
+            return 100
+            ;;
+    esac
+}
+
 if [[ $# -eq 0 ]]; then
     echo "Arguments not specified, assuming base.html and article.html"
     BASE_HTML='base.html'
@@ -23,10 +48,9 @@ else
     BASE_HTML=$1
     ARTICLE_HTML=$2
 fi
-
-# Determine if the theme has already been patched and exit if so
+# Determine if the theme files exist and have already been patched and exit if so
 if [[ -f "$BASE_HTML" ]] && [[ -f "$ARTICLE_HTML" ]]; then
-    if  grep -q "cactus_script.html" "$BASE_HTML" ||  grep -q "CACTUS_SITENAME" "$ARTICLE_HTML"; then
+    if file_patched base || file_patched article; then
         echo "It looks like this theme already has been modified"
         exit 1
     fi
@@ -36,10 +60,32 @@ else
 fi
 
 # Attempt to do the template modifies with cactus comment stuff
-echo "Attempting to inject the cactus_script.html indlude in $BASE_HTML"
-sed -i '/^.*<\/body>.*/i \{\% include "cactus_script.html" \%\}' "$BASE_HTML"
-echo "Attempting to inject the comment div in $ARTICLE_HTML"
-sed  -ie '/^.*{\%\s*if DISQUS_SITENAME\s*\%}/i \{\% if CACTUS_SITENAME \%\}\n\t<div id="comment-section"></div>\n\{\% endif \%\}' "$ARTICLE_HTML"
+# We've already checked for file existance above, so we can assume that sed'ing it will be fine at this point
+echo -n "Attempting to inject the cactus_script.html indlude in $BASE_HTML: "
+# Determine if </body> is found in the base.html and thus patchable
+if grep -q "</body>" "$BASE_HTML"; then
+    # Search for the </body> tag and inject the include before that line
+    sed -i '/^.*<\/body>.*/i \{\% include "cactus_script.html" \%\}' "$BASE_HTML"
+    if file_patched base; then
+        echo "Success"
+    else
+        echo -e "Error\n$BASE_HTML did not successfully modify"
+    fi
+else
+    echo -e "Error\nCouldn't find </body> in $BASE_HTML, you'll have to manually modify"
+fi
+echo -n "Attempting to inject the comment div in $ARTICLE_HTML: "
+# Search for the DISQUS_SITENAME if statement common in themes, and inject the cactus if statement before that match (sed -i)
+if grep -qe "\{\%\s*if DISQUS_SITENAME\s*\%\}" "$ARTICLE_HTML";then
+    sed  -ie '/^.*{\%\s*if DISQUS_SITENAME\s*\%}/i \{\% if CACTUS_SITENAME \%\}\n\t<div id="comment-section"></div>\n\{\% endif \%\}' "$ARTICLE_HTML"
+    if file_patched article; then
+        echo "Success"
+    else
+        echo -e "Error\n$ARTICLE_HTML did not successfully modify"
+    fi
+else
+    echo -e "Error\nDISQUS_SITENAME not found in $ARTICLE_HTML.  You'll have to manually patch"
+fi
 
 # Check if the cactus_script.html has already been placed in the templates dir, if not copy from wherever poke.sh was called.
 if [[ -f cactus_script.html ]]; then
