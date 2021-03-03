@@ -62,6 +62,7 @@ else
     echo "Both base.html and article.html must exist"
     exit 3
 fi
+echo
 
 ########## base.html injection logic ########## 
 # Attempt to do the template modifies with cactus comment stuff
@@ -77,8 +78,9 @@ if grep -qe "$BASE_PATTERN" "$BASE_HTML"; then
         echo -e "Error\n$BASE_HTML did not successfully modify"
     fi
 else
-    echo -e "Error\nCouldn't find </body> in $BASE_HTML, you'll have to manually modify"
+    echo -e "Error\nCouldn't find \"${BASE_PATTERN//\\/}\" in $BASE_HTML, you'll have to manually modify"
 fi
+echo
 
 ########## article.html injection logic ########## 
 echo -n "Attempting to inject the comment div in $ARTICLE_HTML: "
@@ -93,6 +95,7 @@ if grep -qe "$ARTICLE_PATTERN" "$ARTICLE_HTML" && [[ $(grep -ce "$ARTICLE_PATTER
 else
     echo -e "Error\nDISQUS_SITENAME not found (or more than 1 match) in $ARTICLE_HTML.  You'll have to manually patch"
 fi
+echo
 
 ########## copy cactus_script.html ##########
 # Check if the cactus_script.html has already been placed in the templates dir, if not copy from wherever poke.sh was called.
