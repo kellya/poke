@@ -13,14 +13,15 @@
 # Figure out what arguments were given.  If we were given none, assume base.html and article.html,
 # otherwise we need two, one for base and one for article, in that order
 ARTICLE_PATTERN='{\%\s*if DISQUS_SITENAME\s*\%}'    # The pattern used to identify where to inject the comment code in the article
-BASE_PATTERN='<\/body>'                              # The pattern used to identify where to inject the script include code in the base.html
+BASE_PATTERN='<\/body>'                             # The pattern used to identify where to inject the script include code in the base.html
+CACTUS_SCRIPT='cactus_script.html'                  # The file that holds the cactus.chat script to inject into the base
 
 file_patched () {
     # Check either base or article, and return 0 if the modification text has been found
     # or nonzero if the text doesn't exist
     case $1 in
         'base')
-            if grep -q "cactus_script.html" "$BASE_HTML";then
+            if grep -q "$CACTUS_SCRIPT" "$BASE_HTML";then
                 return 0
             else
                 return 101
@@ -65,11 +66,11 @@ fi
 ########## base.html injection logic ########## 
 # Attempt to do the template modifies with cactus comment stuff
 # We've already checked for file existance above, so we can assume that sed'ing it will be fine at this point
-echo -n "Attempting to inject the cactus_script.html indlude in $BASE_HTML: "
+echo -n "Attempting to inject the $CACTUS_SCRIPT indlude in $BASE_HTML: "
 # Determine if $BASE_PATTERN is found in the base.html and thus patchable
 if grep -qe "$BASE_PATTERN" "$BASE_HTML"; then
     # Search for the $BASE_PATTERN tag and inject the include before that line
-    sed -ie "/^.*$BASE_PATTERN.*/i \{\% include 'cactus_script.html' \%\}" "$BASE_HTML"
+    sed -ie "/^.*$BASE_PATTERN.*/i \{\% include '$CACTUS_SCRIPT' \%\}" "$BASE_HTML"
     if file_patched base; then
         echo "Success"
     else
@@ -95,10 +96,10 @@ fi
 
 ########## copy cactus_script.html ##########
 # Check if the cactus_script.html has already been placed in the templates dir, if not copy from wherever poke.sh was called.
-if [[ -f cactus_script.html ]]; then
-    echo "You've already got the cactus_script.html included, so you are good to go"
+if [[ -f $CACTUS_SCRIPT ]]; then
+    echo "You've already got the $CACTUS_SCRIPT included, so you are good to go"
 else
-    echo "Copying cactus_script.html to this directory"
+    echo "Copying $CACTUS_SCRIPT to this directory"
     CP_DIR=$(dirname "$0")
-    cp "$CP_DIR"/cactus_script.html .
+    cp "$CP_DIR"/$CACTUS_SCRIPT .
 fi
