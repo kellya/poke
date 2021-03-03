@@ -93,7 +93,7 @@ if grep -qe "$ARTICLE_PATTERN" "$ARTICLE_HTML" && [[ $(grep -ce "$ARTICLE_PATTER
         echo -e "Error\n$ARTICLE_HTML did not successfully modify"
     fi
 else
-    echo -e "Error\nDISQUS_SITENAME not found (or more than 1 match) in $ARTICLE_HTML.  You'll have to manually patch"
+    echo -e "Error\nCouldn't find a match for \"$ARTICLE_PATTERN" (or more than 1 match) in $ARTICLE_HTML.  You'll have to manually modify"
 fi
 echo
 
