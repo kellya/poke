@@ -59,7 +59,7 @@ if [[ -f "$BASE_HTML" ]] && [[ -f "$ARTICLE_HTML" ]]; then
         exit 1
     fi
 else
-    echo "Both base.html and article.html must exist"
+    echo "Both $BASE_HTML and $ARTICLE_HTML must exist"
     exit 3
 fi
 echo
