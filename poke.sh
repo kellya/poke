@@ -64,6 +64,21 @@ else
 fi
 echo
 
+########## copy cactus_script.html ##########
+# Check if the cactus_script.html has already been placed in the templates dir, if not copy from wherever poke.sh was called.
+if [[ -f $CACTUS_SCRIPT ]]; then
+    echo "$CACTUS_SCRIPT already exists"
+else
+    echo -n "Copying $CACTUS_SCRIPT to this directory: "
+    CP_DIR=$(dirname "$0")
+    if cp "$CP_DIR"/$CACTUS_SCRIPT .; then
+       echo "Success"
+   else
+       echo -e "Error\nCopy of $CACTUS_SCRIPT failed"
+    fi
+fi
+echo
+
 ########## base.html injection logic ########## 
 # Attempt to do the template modifies with cactus comment stuff
 # We've already checked for file existance above, so we can assume that sed'ing it will be fine at this point
@@ -71,7 +86,7 @@ echo -n "Attempting to inject the $CACTUS_SCRIPT indlude in $BASE_HTML: "
 # Determine if $BASE_PATTERN is found in the base.html and thus patchable
 if grep -qe "$BASE_PATTERN" "$BASE_HTML"; then
     # Search for the $BASE_PATTERN tag and inject the include before that line
-    sed -ie "/^.*$BASE_PATTERN.*/i \{\% include '$CACTUS_SCRIPT' \%\}" "$BASE_HTML"
+    sed -i.bak "/^.*$BASE_PATTERN.*/i \{\% include '$CACTUS_SCRIPT' \%\}" "$BASE_HTML"
     if file_patched base; then
         echo "Success"
     else
@@ -84,25 +99,14 @@ echo
 
 ########## article.html injection logic ########## 
 echo -n "Attempting to inject the comment div in $ARTICLE_HTML: "
-# Search for the DISQUS_SITENAME if statement common in themes, and inject the cactus if statement before that match (sed -i)
+# Search for the DISQUS_SITENAME if statement common in themes, and inject the cactus if statement before that match
 if grep -qe "$ARTICLE_PATTERN" "$ARTICLE_HTML" && [[ $(grep -ce "$ARTICLE_PATTERN" "$ARTICLE_HTML") -eq 1 ]];then
-    sed  -ie "/$ARTICLE_PATTERN/i \{\% if CACTUS_SITENAME \%\}\n\t<div id=\"comment-section\"></div>\n\{\% endif \%\}" "$ARTICLE_HTML"
+    sed  -i.bak "/$ARTICLE_PATTERN/i \{\% if CACTUS_SITENAME \%\}\n\t<div id=\"comment-section\"></div>\n\{\% endif \%\}" "$ARTICLE_HTML"
     if file_patched article; then
         echo "Success"
     else
         echo -e "Error\n$ARTICLE_HTML did not successfully modify"
     fi
 else
-    echo -e "Error\nCouldn't find a match for \"$ARTICLE_PATTERN" (or more than 1 match) in $ARTICLE_HTML.  You'll have to manually modify"
-fi
-echo
-
-########## copy cactus_script.html ##########
-# Check if the cactus_script.html has already been placed in the templates dir, if not copy from wherever poke.sh was called.
-if [[ -f $CACTUS_SCRIPT ]]; then
-    echo "You've already got the $CACTUS_SCRIPT included, so you are good to go"
-else
-    echo "Copying $CACTUS_SCRIPT to this directory"
-    CP_DIR=$(dirname "$0")
-    cp "$CP_DIR"/$CACTUS_SCRIPT .
+    echo -e "Error\nCouldn't find a match for \"$ARTICLE_PATTERN\" (or more than 1 match) in $ARTICLE_HTML.  You'll have to manually modify"
 fi
