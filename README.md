@@ -51,3 +51,8 @@ If poke.sh worked, you shouldn't need to read this section, but if something wen
 	<div id="comment-section"></div>
     {% endif %}
     ```
+## Feedback/contact
+
+For any feedback, please use the [issues](issues) page.
+
+If you would like to communicate via Matrix, you may join the [poke project room](https://matrix.to/#/#poke:arachnitech.com)
