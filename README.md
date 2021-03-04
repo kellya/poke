@@ -53,6 +53,6 @@ If poke.sh worked, you shouldn't need to read this section, but if something wen
     ```
 ## Feedback/contact
 
-For any feedback, please use the [issues](issues) page.
+For any feedback, or issues  please use the [issues](https://github.com/kellya/poke/issues) page.
 
-If you would like to communicate via Matrix, you may join the [poke project room](https://matrix.to/#/#poke:arachnitech.com)
+If you would like to communicate via Matrix, you may join poke project room at [#poke:arachnitech.com](https://matrix.to/#/#poke:arachnitech.com)
