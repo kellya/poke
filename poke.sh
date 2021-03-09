@@ -13,7 +13,7 @@
 # Figure out what arguments were given.  If we were given none, assume base.html and article.html,
 # otherwise we need two, one for base and one for article, in that order
 ARTICLE_PATTERN='{\%\s*if DISQUS_SITENAME\s*\%}'    # The pattern used to identify where to inject the comment code in the article
-BASE_PATTERN='<\/body>'                             # The pattern used to identify where to inject the script include code in the base.html
+BASE_PATTERN='{\%\s*endblock\s*\%}'                 # The pattern used to identify where to inject the script include code in the base.html
 CACTUS_SCRIPT='cactus_script.html'                  # The file that holds the cactus.chat script to inject into the base
 BASEDIR=$(dirname "$0")
 
@@ -43,11 +43,14 @@ file_patched () {
 }
 
 if [[ $# -eq 0 ]]; then
-    echo "Arguments not specified, assuming base.html and article.html"
-    BASE_HTML='base.html'
+    echo "Arguments not specified, assuming rticle.html"
+    BASE_HTML='article.html'
     ARTICLE_HTML='article.html'
-elif [[ $# -lt 2 ]]; then
-    echo "You must specify both base and article filenames (or none if you wish to default to base.html and article.html"
+elif [[ $# -eq 1 ]]; then
+    BASE_HTML=$1
+    ARTICLE_HTML=$1
+elif [[ $# -gt 2 ]]; then
+    echo "You may specify either the article, or article AND base"
     exit 2
 else
     BASE_HTML=$1
@@ -60,6 +63,7 @@ if [[ -f "$BASE_HTML" ]] && [[ -f "$ARTICLE_HTML" ]]; then
         exit 1
     fi
 else
+    # TODO: This needs more logic, or rewritten when we can now specify only the article
     echo "Both $BASE_HTML and $ARTICLE_HTML must exist"
     exit 3
 fi
@@ -69,6 +73,11 @@ echo
 # Check if the cactus_script.html has already been placed in the templates dir, if not copy from wherever poke.sh was called.
 if [[ -f $CACTUS_SCRIPT ]]; then
     echo "$CACTUS_SCRIPT already exists"
+    if cp -i "$BASEDIR"/$CACTUS_SCRIPT .; then
+       echo "Success"
+   else
+       echo -e "Error\nCopy of $CACTUS_SCRIPT failed"
+    fi
 else
     echo -n "Copying $CACTUS_SCRIPT to this directory: "
     if cp "$BASEDIR"/$CACTUS_SCRIPT .; then
@@ -90,7 +99,7 @@ if grep -qe "$BASE_PATTERN" "$BASE_HTML"; then
     if file_patched base; then
         echo "Success"
     else
-        echo -e "Error\n$BASE_HTML did not successfully modify"
+        echo -e "Error\n$BASE_HTML did not successfully modify script injection"
     fi
 else
     echo -e "Error\nCouldn't find \"${BASE_PATTERN//\\/}\" in $BASE_HTML, you'll have to manually modify"
@@ -105,7 +114,7 @@ if grep -qe "$ARTICLE_PATTERN" "$ARTICLE_HTML" && [[ $(grep -ce "$ARTICLE_PATTER
     if file_patched article; then
         echo "Success"
     else
-        echo -e "Error\n$ARTICLE_HTML did not successfully modify"
+        echo -e "Error\n$ARTICLE_HTML did not successfully modify chat inclusion"
     fi
 else
     echo -e "Error\nCouldn't find a match for \"$ARTICLE_PATTERN\" (or more than 1 match) in $ARTICLE_HTML.  You'll have to manually modify"

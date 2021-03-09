@@ -17,10 +17,14 @@
 <script>
 initComments({
   node: document.getElementById("comment-section"),
-    defaultHomeserverUrl: "{{CACTUS_HOMESERVER}}",
-    serverName: "{{CACTUS_SERVERNAME}}",
-    siteName: "{{CACTUS_SITENAME}}",
-    commentSectionId: "{{output_file}}"
+    defaultHomeserverUrl: "{{ CACTUS_HOMESERVER}} ",
+    serverName: "{{ CACTUS_SERVERNAME }}",
+    siteName: "{{ CACTUS_SITENAME }}",
+    {% if not article.metadata['cactus_section_id'] %}
+        commentSectionId: "{{ article.slug }}"
+    {% else %}
+        commentSectionId: "{{ article.metadata['cactus_section_id'] }}"
+    {% endif %}
 })
 </script>
 {%- endif %}
