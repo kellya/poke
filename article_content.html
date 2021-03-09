@@ -1,0 +1,7 @@
+{% if CACTUS_SITENAME %}
+    {% if not article.metadata['cactus_chat_disabled'] %}
+        <div id="comment-section"></div>
+    {% else %}
+        <p> Chat has been disabled for this post </p>
+    {% endif %}
+{% endif %}

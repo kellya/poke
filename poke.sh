@@ -15,6 +15,7 @@
 ARTICLE_PATTERN='{\%\s*if DISQUS_SITENAME\s*\%}'    # The pattern used to identify where to inject the comment code in the article
 BASE_PATTERN='<\/body>'                             # The pattern used to identify where to inject the script include code in the base.html
 CACTUS_SCRIPT='cactus_script.html'                  # The file that holds the cactus.chat script to inject into the base
+BASEDIR=$(dirname "$0")
 
 file_patched () {
     # Check either base or article, and return 0 if the modification text has been found
@@ -70,8 +71,7 @@ if [[ -f $CACTUS_SCRIPT ]]; then
     echo "$CACTUS_SCRIPT already exists"
 else
     echo -n "Copying $CACTUS_SCRIPT to this directory: "
-    CP_DIR=$(dirname "$0")
-    if cp "$CP_DIR"/$CACTUS_SCRIPT .; then
+    if cp "$BASEDIR"/$CACTUS_SCRIPT .; then
        echo "Success"
    else
        echo -e "Error\nCopy of $CACTUS_SCRIPT failed"
@@ -101,7 +101,7 @@ echo
 echo -n "Attempting to inject the comment div in $ARTICLE_HTML: "
 # Search for the DISQUS_SITENAME if statement common in themes, and inject the cactus if statement before that match
 if grep -qe "$ARTICLE_PATTERN" "$ARTICLE_HTML" && [[ $(grep -ce "$ARTICLE_PATTERN" "$ARTICLE_HTML") -eq 1 ]];then
-    sed  -i.bak "/$ARTICLE_PATTERN/i \{\% if CACTUS_SITENAME \%\}\n\t<div id=\"comment-section\"></div>\n\{\% endif \%\}" "$ARTICLE_HTML"
+    sed  -i.bak "/$ARTICLE_PATTERN/e cat $BASEDIR/article_content.html" "$ARTICLE_HTML"
     if file_patched article; then
         echo "Success"
     else
