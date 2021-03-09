@@ -21,6 +21,10 @@ If you are self-hosting you must set the following variables
 
 You may also choose to self-host the JavaScript and CSS parts.  In order to specify those URLs you would set `CACTUS_JS_URL` and `CACTUS_CSS_URL` respectively
 
+## Article metadata variables
+
+You may disable chat integration on a single page by setting ``cactus_chat_disable`` to ``True`` in the article metadata.  The details for setting metadata varies depending on the document source, see [Pelican's documentation](https://docs.getpelican.com/en/4.5.4/content.html) for specifics.
+
 ## How does it work?
 
 Poke.sh assumes that the theme you are modifying already has a block for Disqus chatting.  It uses this as an anchor to figure out where to inject cactus.chat
