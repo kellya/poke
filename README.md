@@ -42,7 +42,9 @@ Markdown similarly sets metadata at the top of the file.  To disable chat in Mar
 Poke.sh assumes that the theme you are modifying already has a block for Disqus chatting.  It uses this as an anchor to figure out where to inject cactus.chat
 If the theme templates don't include Disqus, then you'll have to manually do it.
 
-It uses the `{{output_file}}` template variable to create a unique comment section for each page.  Whatever your pelican outputs as page.html will be the address generated for each post.  Typically that would be the title of the page, or the slug.  So if you have a page with the title "this is a test", that will create 'output/this-is-a-test.html'.  The cactus_script.html will generate a room id like `#comments_your.domain_this-is-a-test.html:yourhomeserver.domain`
+It uses the `{{article.slug}}` template variable to create a unique comment section for each page.  Whatever your pelican outputs as page.html will be the address generated for each post.  Typically that would be the title of the page, or the slug.  So if you have a page with the title "this is a test", the cactus_script.html will generate a room id like `#comments_your.domain_this-is-a-test:yourhomeserver.domain`
+
+This also means that it is possible to set the ``slug`` metadata in your file to control the output, if you wish for it to differ from the page title.
 
 ## How do I use this?
 
@@ -50,23 +52,31 @@ It uses the `{{output_file}}` template variable to create a unique comment secti
 2. go to the templates directory of the theme you wish to modify: `cd /path/to/your/pelican/theme/templates`
 3. Run the poke.sh command from this directory with `/path/to/poke.sh`.
 
-Assuming there is a base.html and an article.html, they will be modified and the cactus_script.html will be copied into the templates.
+Assuming there is an article.html, it will be modified and the cactus_script.html will be copied into the templates.
 
 ## The script didn't work, how do I do this manually?
 
 If poke.sh worked, you shouldn't need to read this section, but if something went wrong (or you don't trust my 5 minutes of hacking sed to do this), here are the manual steps you can try:
 
 1. Copy the cactus_script.html to the templates directory
-2. Modify the base.html and add the following at the bottom of the html, but before the `</body>`
+2. Modify the article.html and add the following at the bottom of the html, but before the {% endblock %}
 
     `{% include "cactus_script.html" %}`
 
 3. Modify the article.html and put the following at the location at which you want the comments to show up in the page
     ```
     {% if CACTUS_SITENAME %}
-	<div id="comment-section"></div>
+        {% if not article.metadata['cactus_chat_disable'] %}
+            <div id="comment-section"></div>
+        {% else %}
+            <p> Chat has been disabled for this post </p>
+        {% endif %}
     {% endif %}
     ```
+## Poke update from version 1 to 2
+
+The big difference between poke version 1 and 2 is that all the content is now included directly in the article.html.  This was done to get access to the article objects (namely the metadata fields for the new overrides), but because it now has access to the 'article.slug' object, I thought that made a better section identifier.  That means that any pages generated on poke v1.x will have to be manually overridden to have the old name specified in ``cactus_section_id`` in the metadata of the source files.
+
 ## Feedback/contact
 
 For any feedback, or issues  please use the [issues](https://github.com/kellya/poke/issues) page.
