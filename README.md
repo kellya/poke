@@ -25,6 +25,8 @@ You may also choose to self-host the JavaScript and CSS parts.  In order to spec
 
 You may disable chat integration on a single page by setting ``cactus_chat_disable`` to ``True`` in the article metadata.  The details for setting metadata varies depending on the document source, see [Pelican's documentation](https://docs.getpelican.com/en/4.5.4/content.html) for specifics.
 
+You may override the cactus chat section ID with ``cactus_section_id`` in the metadata.  This allows you to optionally use the same chat for multiple pages, or to override the default name for things like fixing the difference in automatic generation from version 1 to 2 of poke.  See section below.
+
 ### RestructuredText
 
 Metadata in RestructuredText is specified at the top of the file, wrapped in colons:
