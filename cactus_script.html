@@ -20,10 +20,10 @@ initComments({
     defaultHomeserverUrl: "{{ CACTUS_HOMESERVER}} ",
     serverName: "{{ CACTUS_SERVERNAME }}",
     siteName: "{{ CACTUS_SITENAME }}",
-    {% if not article.metadata['cactus_section_id'] %}
+    {% if not article.metadata['cactus_comment_section_id'] %}
         commentSectionId: "{{ article.slug }}"
     {% else %}
-        commentSectionId: "{{ article.metadata['cactus_section_id'] }}"
+        commentSectionId: "{{ article.metadata['cactus_comment_section_id'] }}"
     {% endif %}
 })
 </script>
