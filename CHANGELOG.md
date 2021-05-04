@@ -1,3 +1,7 @@
+v2.0.2 / 2021-04-04
+===================
+  * feat: Added global settings for web client settings up to v0.8.0
+
 v2.0.1 / 2021-03-09
 ===================
 
