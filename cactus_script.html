@@ -17,7 +17,19 @@
 <script>
 initComments({
   node: document.getElementById("comment-section"),
-    defaultHomeserverUrl: "{{ CACTUS_HOMESERVER}} ",
+    {% if CACTUS_PAGE_SIZE %}
+	pageSize: {{ CACTUS_PAGE_SIZE }},
+    {% endif %}
+    {% if CACTUS_LOGIN_ENABLED %}
+	loginEnabled: {{ CACTUS_LOGIN_ENABLED }},
+    {% endif %}
+    {% if CACTUS_GUEST_POSTING %}
+        guestPostingEnabled: {{ CACTUS_GUEST_POSTING }},
+    {% endif %}
+    {% if CACTUS_UPDATE_INTERVAL %}
+        updateInterval: {{ CACTUS_UPDATE_INTERVAL }},
+    {% endif %}
+    defaultHomeserverUrl: "{{ CACTUS_HOMESERVER }} ",
     serverName: "{{ CACTUS_SERVERNAME }}",
     siteName: "{{ CACTUS_SITENAME }}",
     {% if not article.metadata['cactus_comment_section_id'] %}

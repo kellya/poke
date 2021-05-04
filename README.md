@@ -21,6 +21,15 @@ If you are self-hosting you must set the following variables
 
 You may also choose to self-host the JavaScript and CSS parts.  In order to specify those URLs you would set `CACTUS_JS_URL` and `CACTUS_CSS_URL` respectively
 
+### Optional Settings
+
+`CACTUS_LOGIN_ENABLED` (true or false) Boolean to allow/disallow client logins
+directly (true) or via a matrix.to link (false).
+`CACTUS_PAGE_SIZE` (integer) A number for the number of comments to show per page
+`CACTUS_GUEST_POSTING` (true or false) Boolean to allow/disallow guest posting
+`CACTUS_UPDATE_INTERVAL` (integer) The number of seconds to auto-refresh the
+comments.  Zero or negative number disabled
+
 ## Article metadata variables
 
 You may disable chat integration on a single page by setting ``cactus_chat_disable`` to ``True`` in the article metadata.  The details for setting metadata varies depending on the document source, see [Pelican's documentation](https://docs.getpelican.com/en/4.5.4/content.html) for specifics.
