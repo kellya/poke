@@ -1,59 +1,61 @@
-v2.0.2 / 2021-04-04
-===================
-  * feat: Added global settings for web client settings up to v0.8.0
+# Changelog
 
-v2.0.1 / 2021-03-09
-===================
+## 2.1.0 (2021-05-11)
 
-  * fix: changed metadata for section id to more closely match what it actually is in the cactus_script
 
-v2.0.0 / 2021-03-09
-===================
+Full set of changes: [`v2.1.0...2.1.0`](https://github.com/kellya/poke/compare/v2.1.0...2.1.0)
 
-  * doc: update documentation for the version 2 changes
-  * doc: updated readme to include the additional cactus_section_id metadata
-  * Rewrote to modify only article, and utilize article jinja objects
+## v2.1.0 (2021-05-11)
 
-v1.0.3 / 2021-03-09
-===================
+#### New Features
 
-  * Updated changelog
-  * Added metadata examples
-  * Added metadata section for the chat disabling details
-  * fix: spelling error in variable check
-  * feat: Disable chat inclusion on a single article
-  * fixed the issue link, which was itself an issue
-  * Added matrix link to readme
+* Added support for the html data attributes.  Closes [#2](https://github.com/kellya/poke/issues/2)
 
-v1.0.2 / 2021-03-04
-===================
+Full set of changes: [`v2.0.2...v2.1.0`](https://github.com/kellya/poke/compare/v2.0.2...v2.1.0)
 
-  * fix: show $BASE_HTML and $ARTICLE_HTML in message output
-  * Initial generation of CHANGELOG
-  * fix: Moved copy to the first operation and added error checking for a copy fail
+## v2.0.2 (2021-05-04)
 
-v1.0.1 / 2021-03-04
-===================
 
-  * Moved copy to the first operation and added error checking for a copy fail
+Full set of changes: [`v2.0.1...v2.0.2`](https://github.com/kellya/poke/compare/v2.0.1...v2.0.2)
 
-v1.0.0 / 2021-03-03
-===================
+## v2.0.1 (2021-03-09)
 
-  * Added the pattern to the article error
-  * Added the output_file template details
-  * Added  to error output, and an extra echo between sections to help readability of output
-  * moved cactus_script.html to a variable
-  * Moved patterns to variables and added additional sanity checks before patching
-  * Added more verification and feedback for the patching process
-  * Added check to verify template files exist and corrected logic error determining if patch was alread applied
-  * Narrowed regex a little more
-  * The match was a little too greedy and wreaked havoc on one template I tried.
-  * removed the 'not' from the grep line, that was causing an inverted check
-  * shellcheck fixes
-  * spelling
-  * Some theme/template clarification and it's template(s) not template ;)
-  * do, not to
-  * md line formatting
-  * Fixed bad md link
-  * Initial commit
+#### Fixes
+
+* changed metadata for section id to more closely match what it actually is in the cactus_script
+
+Full set of changes: [`v2.0.0...v2.0.1`](https://github.com/kellya/poke/compare/v2.0.0...v2.0.1)
+
+## v2.0.0 (2021-03-09)
+
+
+Full set of changes: [`v1.0.3...v2.0.0`](https://github.com/kellya/poke/compare/v1.0.3...v2.0.0)
+
+## v1.0.3 (2021-03-09)
+
+#### New Features
+
+* Disable chat inclusion on a single article
+#### Fixes
+
+* spelling error in variable check
+
+Full set of changes: [`v1.0.2...v1.0.3`](https://github.com/kellya/poke/compare/v1.0.2...v1.0.3)
+
+## v1.0.2 (2021-03-04)
+
+#### Fixes
+
+* show $BASE_HTML and $ARTICLE_HTML in message output
+* show $BASE_HTML and $ARTICLE_HTML in message output
+* Moved copy to the first operation and added error checking for a copy fail
+
+Full set of changes: [`v1.0.1...v1.0.2`](https://github.com/kellya/poke/compare/v1.0.1...v1.0.2)
+
+## v1.0.1 (2021-03-04)
+
+
+Full set of changes: [`v1.0.0...v1.0.1`](https://github.com/kellya/poke/compare/v1.0.0...v1.0.1)
+
+## v1.0.0 (2021-03-03)
+
