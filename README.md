@@ -9,6 +9,10 @@ You must first register a site with [cactus.chat](https://cactus.chat) (or your 
 
 In your pelicanconf.py, you will need at least the `CACTUS_SITNAME` variable set.  If you set nothing else, this will use cactus.chat as the host.
 
+As of version 0.9.0 of the cactus webclient, you may optionally use HTML Data
+attributes to display the chat.  This is supported by setting the `CACTUS_HTML_DATA`
+variable to `True`.  The default is False.
+
 ### Self-hosting
 
 If you are self-hosting you must set the following variables
@@ -29,6 +33,8 @@ directly (true) or via a matrix.to link (false).
 `CACTUS_GUEST_POSTING` (true or false) Boolean to allow/disallow guest posting
 `CACTUS_UPDATE_INTERVAL` (integer) The number of seconds to auto-refresh the
 comments.  Zero or negative number disabled
+`CACTUS_HTML_DATA` (true or false) Option to display chat via HTML data
+attributes (true) or not (**false**)
 
 ## Article metadata variables
 

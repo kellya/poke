@@ -11,6 +11,33 @@
     {% if CACTUS_SERVERNAME is not defined %}
         {% set CACTUS_SERVERNAME = 'cactus.chat' %}
     {% endif %}
+    {% if CACTUS_HTML_DATA %}
+    <script type="text/javascript" src="{{ CACTUS_JS_URL }}"
+                                   data-default-homeserver-url="{{ CACTUS_HOMESERVER }}"
+                                   data-server-name="{{ CACTUS_SERVERNAME }}"
+                                   data-site-name="{{ CACTUS_SITENAME }}"
+                                {% if not article.metadata['cactus_comment_section_id'] %}
+                                   data-comment-section-id="{{ article.slug }}"
+                                {% else %}
+                                   data-comment-section-id="{{ article.metadata['cactus_comment_section_id'] }}"
+                                {% endif %}
+                                {% if CACTUS_PAGE_SIZE %}
+                                   data-page-size="{{ CACTUS_PAGE_SIZE }}"
+                                {% endif %}
+                                {% if CACTUS_LOGIN_ENABLED %}
+                                   data-page-size="{{ CACTUS_LOGIN_ENABLED }}"
+                                % endif %}
+                                {% if CACTUS_GUEST_POSTING %}
+                                   data-guest-posting-enabled="{{ CACTUS_GUEST_POSTING }}"
+                                {% endif %}
+                                {% if CACTUS_UPDATE_INTERVAL %}
+                                   data-update-interval="{{ CACTUS_UPDATE_INTERVAL }}"
+                                {% endif %}
+    </script>
+    {% endif %}
+    {% else %}
+
+
     <script type="text/javascript" src="{{ CACTUS_JS_URL }}"></script>
     <link rel="stylesheet" href="{{ CACTUS_CSS_URL }}" type="text/css">
 
@@ -23,15 +50,19 @@ initComments({
     {% if CACTUS_LOGIN_ENABLED %}
 	loginEnabled: {{ CACTUS_LOGIN_ENABLED }},
     {% endif %}
+
     {% if CACTUS_GUEST_POSTING %}
         guestPostingEnabled: {{ CACTUS_GUEST_POSTING }},
     {% endif %}
+
     {% if CACTUS_UPDATE_INTERVAL %}
         updateInterval: {{ CACTUS_UPDATE_INTERVAL }},
     {% endif %}
+
     defaultHomeserverUrl: "{{ CACTUS_HOMESERVER }} ",
     serverName: "{{ CACTUS_SERVERNAME }}",
     siteName: "{{ CACTUS_SITENAME }}",
+
     {% if not article.metadata['cactus_comment_section_id'] %}
         commentSectionId: "{{ article.slug }}"
     {% else %}
@@ -39,4 +70,5 @@ initComments({
     {% endif %}
 })
 </script>
+{%- endif %}
 {%- endif %}
