@@ -43,7 +43,7 @@ file_patched () {
 }
 
 if [[ $# -eq 0 ]]; then
-    echo "Arguments not specified, assuming rticle.html"
+    echo "Arguments not specified, assuming article.html"
     BASE_HTML='article.html'
     ARTICLE_HTML='article.html'
 elif [[ $# -eq 1 ]]; then
@@ -60,7 +60,7 @@ fi
 if [[ -f "$BASE_HTML" ]] && [[ -f "$ARTICLE_HTML" ]]; then
     if file_patched base || file_patched article; then
         echo "It looks like this theme already has been modified"
-        exit 1
+        THEME_MODIFIED=1
     fi
 else
     # TODO: This needs more logic, or rewritten when we can now specify only the article
@@ -74,8 +74,8 @@ echo
 if [[ -f $CACTUS_SCRIPT ]]; then
     echo "$CACTUS_SCRIPT already exists"
     if cp -i "$BASEDIR"/$CACTUS_SCRIPT .; then
-       echo "Success"
-   else
+        echo "$CACTUS_SCRIPT updated"
+    else
        echo -e "Error\nCopy of $CACTUS_SCRIPT failed"
     fi
 else
@@ -91,31 +91,37 @@ echo
 ########## base.html injection logic ########## 
 # Attempt to do the template modifies with cactus comment stuff
 # We've already checked for file existance above, so we can assume that sed'ing it will be fine at this point
-echo -n "Attempting to inject the $CACTUS_SCRIPT indlude in $BASE_HTML: "
-# Determine if $BASE_PATTERN is found in the base.html and thus patchable
-if grep -qe "$BASE_PATTERN" "$BASE_HTML"; then
-    # Search for the $BASE_PATTERN tag and inject the include before that line
-    sed -i.bak "/^.*$BASE_PATTERN.*/i \{\% include '$CACTUS_SCRIPT' \%\}" "$BASE_HTML"
-    if file_patched base; then
-        echo "Success"
+if [ ! $THEME_MODIFIED ]; then
+    echo -n "Attempting to inject the $CACTUS_SCRIPT include in $BASE_HTML: "
+    # Determine if $BASE_PATTERN is found in the base.html and thus patchable
+    if grep -qe "$BASE_PATTERN" "$BASE_HTML"; then
+        # Search for the $BASE_PATTERN tag and inject the include before that line
+        sed -i.bak "/^.*$BASE_PATTERN.*/i \{\% include '$CACTUS_SCRIPT' \%\}" "$BASE_HTML"
+        if file_patched base; then
+            echo "Success"
+        else
+            echo -e "Error\n$BASE_HTML did not successfully modify script injection"
+        fi
     else
-        echo -e "Error\n$BASE_HTML did not successfully modify script injection"
+        echo -e "Error\nCouldn't find \"${BASE_PATTERN//\\/}\" in $BASE_HTML, you'll have to manually modify"
     fi
-else
-    echo -e "Error\nCouldn't find \"${BASE_PATTERN//\\/}\" in $BASE_HTML, you'll have to manually modify"
 fi
 echo
 
 ########## article.html injection logic ########## 
-echo -n "Attempting to inject the comment div in $ARTICLE_HTML: "
-# Search for the DISQUS_SITENAME if statement common in themes, and inject the cactus if statement before that match
-if grep -qe "$ARTICLE_PATTERN" "$ARTICLE_HTML" && [[ $(grep -ce "$ARTICLE_PATTERN" "$ARTICLE_HTML") -eq 1 ]];then
-    sed  -i.bak "/$ARTICLE_PATTERN/e cat $BASEDIR/article_content.html" "$ARTICLE_HTML"
-    if file_patched article; then
-        echo "Success"
+if [ ! $THEME_MODIFIED ]; then
+    echo -n "Attempting to inject the comment div in $ARTICLE_HTML: "
+    # Search for the DISQUS_SITENAME if statement common in themes, and inject the cactus if statement before that match
+    if grep -qe "$ARTICLE_PATTERN" "$ARTICLE_HTML" && [[ $(grep -ce "$ARTICLE_PATTERN" "$ARTICLE_HTML") -eq 1 ]];then
+        sed  -i.bak "/$ARTICLE_PATTERN/e cat $BASEDIR/article_content.html" "$ARTICLE_HTML"
+        if file_patched article; then
+            echo "Success"
+        else
+            echo -e "Error\n$ARTICLE_HTML did not successfully modify chat inclusion"
+        fi
     else
-        echo -e "Error\n$ARTICLE_HTML did not successfully modify chat inclusion"
+        echo -e "Error\nCouldn't find a match for \"$ARTICLE_PATTERN\" (or more than 1 match) in $ARTICLE_HTML.  You'll have to manually modify"
     fi
 else
-    echo -e "Error\nCouldn't find a match for \"$ARTICLE_PATTERN\" (or more than 1 match) in $ARTICLE_HTML.  You'll have to manually modify"
+    echo "Theme was already modified, no further changes to themefiles"
 fi
