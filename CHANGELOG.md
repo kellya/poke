@@ -1,12 +1,20 @@
 # Changelog
 
-## 2.1.1 (2021-05-14)
+## 2.1.2 (2021-05-17)
+
+#### Fixes
+
+* corrected an issue preventing the cactus_script update from happening for an overwrite
+
+Full set of changes: [`v2.1.1...2.1.2`](https://github.com/kellya/poke/compare/v2.1.1...2.1.2)
+
+## v2.1.1 (2021-05-14)
 
 #### Fixes
 
 * an extra space was added to the homeserver which was messing up the connection to the homeserver URL
 
-Full set of changes: [`v2.1.0...2.1.1`](https://github.com/kellya/poke/compare/v2.1.0...2.1.1)
+Full set of changes: [`v2.1.0...v2.1.1`](https://github.com/kellya/poke/compare/v2.1.0...v2.1.1)
 
 ## v2.1.0 (2021-05-11)
 
