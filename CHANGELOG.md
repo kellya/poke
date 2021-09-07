@@ -1,12 +1,20 @@
 # Changelog
 
-## 2.1.2 (2021-05-17)
+## v2.1.3 (2021-09-07)
+
+#### Fixes
+
+* correct the login_enabled logic, it would only set it if it was true
+
+Full set of changes: [`v2.1.2...v2.1.3`](https://github.com/kellya/poke/compare/v2.1.2...v2.1.3)
+
+## v2.1.2 (2021-05-17)
 
 #### Fixes
 
 * corrected an issue preventing the cactus_script update from happening for an overwrite
 
-Full set of changes: [`v2.1.1...2.1.2`](https://github.com/kellya/poke/compare/v2.1.1...2.1.2)
+Full set of changes: [`v2.1.1...v2.1.2`](https://github.com/kellya/poke/compare/v2.1.1...v2.1.2)
 
 ## v2.1.1 (2021-05-14)
 

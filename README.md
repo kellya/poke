@@ -45,6 +45,18 @@ You may disable chat integration on a single page by setting ``cactus_chat_disab
 
 You may override the cactus chat section ID with ``cactus_comment_section_id`` in the metadata.  This allows you to optionally use the same chat for multiple pages, or to override the default name for things like fixing the difference in automatic generation from version 1 to 2 of poke.  See section below.
 
+### Additional Overrides
+as of poke version 2.1.3, the following settings may be overridden in the
+content metadata:
+
+`cactus_page_size`
+
+`cactus_login_disabled`
+
+`cactus_guest_posting_enabled`
+
+`cactus_update_interval`
+
 ### RestructuredText
 
 Metadata in RestructuredText is specified at the top of the file, wrapped in colons:
