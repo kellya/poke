@@ -24,9 +24,13 @@
                                 {% if CACTUS_PAGE_SIZE %}
                                    data-page-size="{{ CACTUS_PAGE_SIZE }}"
                                 {% endif %}
-                                {% if CACTUS_LOGIN_ENABLED %}
+                                {% if article.metadata['cactus_page_size'] %}
+                                   data-page-size="{{ article.metadata['cactus_page_size'] }}"
+                                {% if CACTUS_LOGIN_ENABLED is defined %}
                                    data-page-size="{{ CACTUS_LOGIN_ENABLED }}"
                                 % endif %}
+                                {% if article.metadata['cactus_login_enabled'] is defined %}
+                                   data-page-size="{{ article.metadata['cactus_login_enabled'] }}"
                                 {% if CACTUS_GUEST_POSTING %}
                                    data-guest-posting-enabled="{{ CACTUS_GUEST_POSTING }}"
                                 {% endif %}
@@ -37,7 +41,6 @@
     {% endif %}
     {% else %}
 
-
     <script type="text/javascript" src="{{ CACTUS_JS_URL }}"></script>
     <link rel="stylesheet" href="{{ CACTUS_CSS_URL }}" type="text/css">
 
@@ -47,27 +50,40 @@ initComments({
     {% if CACTUS_PAGE_SIZE %}
 	pageSize: {{ CACTUS_PAGE_SIZE }},
     {% endif %}
-    {% if CACTUS_LOGIN_ENABLED %}
-	loginEnabled: {{ CACTUS_LOGIN_ENABLED }},
+    {% if CACTUS_LOGIN_ENABLED is defined %}
+	loginEnabled: "{{ CACTUS_LOGIN_ENABLED }}",
+    {% endif %}
+    {% if article.metadata['cactus_login_enabled'] is defined %}
+    loginEnabled: "{{ article.metadata['cactus_login_enabled'] }}",
     {% endif %}
 
     {% if CACTUS_GUEST_POSTING %}
         guestPostingEnabled: {{ CACTUS_GUEST_POSTING }},
     {% endif %}
+    {% if article.metadata['cactus_guest_posting_enabled'] %}
+    guestPostingEnabled: "{{ article.metadata['cactus_guest_posting_enabled'] }}",
+    {% endif %}
 
     {% if CACTUS_UPDATE_INTERVAL %}
         updateInterval: {{ CACTUS_UPDATE_INTERVAL }},
+    {% endif %}
+    {% if article.metadata['cactus_update_interval'] %}
+    updateInterval: "{{ article.metadata['cactus_update_interval'] }}",
     {% endif %}
 
     defaultHomeserverUrl: "{{ CACTUS_HOMESERVER }}",
     serverName: "{{ CACTUS_SERVERNAME }}",
     siteName: "{{ CACTUS_SITENAME }}",
 
+
+
     {% if not article.metadata['cactus_comment_section_id'] %}
         commentSectionId: "{{ article.slug }}"
     {% else %}
         commentSectionId: "{{ article.metadata['cactus_comment_section_id'] }}"
     {% endif %}
+
+
 })
 </script>
 {%- endif %}
