@@ -2,89 +2,98 @@
     {% if CACTUS_JS_URL is not defined %}
         {% set CACTUS_JS_URL = 'https://latest.cactus.chat/cactus.js' %}
     {% endif %}
+
     {% if CACTUS_CSS_URL is not defined %}
         {% set CACTUS_CSS_URL = 'https://latest.cactus.chat/style.css' %}
     {% endif %}
+
     {% if CACTUS_HOMESERVER is not defined %}
         {% set CACTUS_HOMESERVER = 'https://matrix.cactus.chat:8448' %}
     {% endif %}
+
     {% if CACTUS_SERVERNAME is not defined %}
         {% set CACTUS_SERVERNAME = 'cactus.chat' %}
     {% endif %}
-    {% if CACTUS_HTML_DATA %}
-    <script type="text/javascript" src="{{ CACTUS_JS_URL }}"
-                                   data-default-homeserver-url="{{ CACTUS_HOMESERVER }}"
-                                   data-server-name="{{ CACTUS_SERVERNAME }}"
-                                   data-site-name="{{ CACTUS_SITENAME }}"
-                                {% if not article.metadata['cactus_comment_section_id'] %}
-                                   data-comment-section-id="{{ article.slug }}"
-                                {% else %}
-                                   data-comment-section-id="{{ article.metadata['cactus_comment_section_id'] }}"
-                                {% endif %}
-                                {% if CACTUS_PAGE_SIZE %}
-                                   data-page-size="{{ CACTUS_PAGE_SIZE }}"
-                                {% endif %}
-                                {% if article.metadata['cactus_page_size'] %}
-                                   data-page-size="{{ article.metadata['cactus_page_size'] }}"
-                                {% if CACTUS_LOGIN_ENABLED is defined %}
-                                   data-page-size="{{ CACTUS_LOGIN_ENABLED }}"
-                                % endif %}
-                                {% if article.metadata['cactus_login_enabled'] is defined %}
-                                   data-page-size="{{ article.metadata['cactus_login_enabled'] }}"
-                                {% if CACTUS_GUEST_POSTING %}
-                                   data-guest-posting-enabled="{{ CACTUS_GUEST_POSTING }}"
-                                {% endif %}
-                                {% if CACTUS_UPDATE_INTERVAL %}
-                                   data-update-interval="{{ CACTUS_UPDATE_INTERVAL }}"
-                                {% endif %}
-    </script>
-    {% endif %}
-    {% else %}
 
+    {% if CACTUS_HTML_DATA %}
+        <script type="text/javascript" src="{{ CACTUS_JS_URL }}"
+                data-default-homeserver-url="{{ CACTUS_HOMESERVER }}"
+                data-server-name="{{ CACTUS_SERVERNAME }}"
+                data-site-name="{{ CACTUS_SITENAME }}"
+                {% if not article.metadata['cactus_comment_section_id'] %}
+                data-comment-section-id="{{ article.slug }}"
+                {% else %}
+                data-comment-section-id="{{ article.metadata['cactus_comment_section_id'] }}"
+                {% endif %}
+
+                {% if CACTUS_PAGE_SIZE %}
+                data-page-size="{{ CACTUS_PAGE_SIZE }}"
+                {% endif %}
+
+                {% if article.metadata['cactus_page_size'] %}
+                data-page-size="{{ article.metadata['cactus_page_size'] }}"
+                {% endif %}
+
+                {% if CACTUS_LOGIN_ENABLED %}
+                data-page-size="{{ CACTUS_LOGIN_ENABLED }}"
+                {% endif %}
+
+                {% if article.metadata['cactus_login_enabled'] is defined %}
+                data-page-size="{{ article.metadata['cactus_login_enabled'] }}"
+                {% endif %}
+
+                {% if CACTUS_GUEST_POSTING %}
+                data-guest-posting-enabled="{{ CACTUS_GUEST_POSTING }}"
+                {% endif %}
+
+                {% if CACTUS_UPDATE_INTERVAL %}
+                data-update-interval="{{ CACTUS_UPDATE_INTERVAL }}"
+                {% endif %}
+        </script>
+    {% endif %}
+{% else %}
     <script type="text/javascript" src="{{ CACTUS_JS_URL }}"></script>
     <link rel="stylesheet" href="{{ CACTUS_CSS_URL }}" type="text/css">
+    <script>
+        initComments({
+            node: document.getElementById("comment-section"),
+            {% if CACTUS_PAGE_SIZE %}
+                pageSize: {{ CACTUS_PAGE_SIZE }},
+            {% endif %}
 
-<script>
-initComments({
-  node: document.getElementById("comment-section"),
-    {% if CACTUS_PAGE_SIZE %}
-	pageSize: {{ CACTUS_PAGE_SIZE }},
-    {% endif %}
-    {% if CACTUS_LOGIN_ENABLED is defined %}
-	loginEnabled: "{{ CACTUS_LOGIN_ENABLED }}",
-    {% endif %}
-    {% if article.metadata['cactus_login_enabled'] is defined %}
-    loginEnabled: "{{ article.metadata['cactus_login_enabled'] }}",
-    {% endif %}
+            {% if CACTUS_LOGIN_ENABLED is defined %}
+                loginEnabled: "{{ CACTUS_LOGIN_ENABLED }}",
+            {% endif %}
 
-    {% if CACTUS_GUEST_POSTING %}
-        guestPostingEnabled: {{ CACTUS_GUEST_POSTING }},
-    {% endif %}
-    {% if article.metadata['cactus_guest_posting_enabled'] %}
-    guestPostingEnabled: "{{ article.metadata['cactus_guest_posting_enabled'] }}",
-    {% endif %}
+            {% if article.metadata['cactus_login_enabled'] is defined %}
+                loginEnabled: "{{ article.metadata['cactus_login_enabled'] }}",
+            {% endif %}
 
-    {% if CACTUS_UPDATE_INTERVAL %}
-        updateInterval: {{ CACTUS_UPDATE_INTERVAL }},
-    {% endif %}
-    {% if article.metadata['cactus_update_interval'] %}
-    updateInterval: "{{ article.metadata['cactus_update_interval'] }}",
-    {% endif %}
+            {% if CACTUS_GUEST_POSTING %}
+                guestPostingEnabled: {{ CACTUS_GUEST_POSTING }},
+            {% endif %}
 
-    defaultHomeserverUrl: "{{ CACTUS_HOMESERVER }}",
-    serverName: "{{ CACTUS_SERVERNAME }}",
-    siteName: "{{ CACTUS_SITENAME }}",
+            {% if article.metadata['cactus_guest_posting_enabled'] %}
+                guestPostingEnabled: "{{ article.metadata['cactus_guest_posting_enabled'] }}",
+            {% endif %}
 
+            {% if CACTUS_UPDATE_INTERVAL %}
+                updateInterval: {{ CACTUS_UPDATE_INTERVAL }},
+            {% endif %}
 
+            {% if article.metadata['cactus_update_interval'] %}
+                updateInterval: "{{ article.metadata['cactus_update_interval'] }}",
+            {% endif %}
 
-    {% if not article.metadata['cactus_comment_section_id'] %}
-        commentSectionId: "{{ article.slug }}"
-    {% else %}
-        commentSectionId: "{{ article.metadata['cactus_comment_section_id'] }}"
-    {% endif %}
+            defaultHomeserverUrl: "{{ CACTUS_HOMESERVER }}",
+            serverName: "{{ CACTUS_SERVERNAME }}",
+            siteName: "{{ CACTUS_SITENAME }}",
 
-
-})
-</script>
-{%- endif %}
-{%- endif %}
+            {% if not article.metadata['cactus_comment_section_id'] %}
+                commentSectionId: "{{ article.slug }}"
+            {% else %}
+                commentSectionId: "{{ article.metadata['cactus_comment_section_id'] }}"
+            {% endif %}
+        })
+    </script>
+{% endif %}
