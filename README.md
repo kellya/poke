@@ -1,7 +1,9 @@
 # poke.sh
 
 ## What is it?
-There are two parts, the first is the cactus_script.html that has all of the theme template content needed to make it work, and the poke.sh which is a shell script to automatically inject the template changes needed to make use of cactus_script.html.
+Poke adds the [cactus.chat](https://cactus.chat) matrix-based comment system to any pelican theme.  It also introduces an additional pelican.conf variables to make use of functionality found in cactus.
+
+This is implemented in two parts: cactus_script.html which has all of the theme template content needed to make it work, and the poke.sh script to automatically inject the template changes needed to make use of cactus_script.html.
 
 You must first register a site with [cactus.chat](https://cactus.chat) (or your own host if you are self-hosting).  Then you may modify pelican templates to make use of the cactus_script.html indcluded in this repo
 
@@ -27,20 +29,33 @@ You may also choose to self-host the JavaScript and CSS parts.  In order to spec
 
 ### Optional Settings
 
-`CACTUS_LOGIN_ENABLED` (true or false) Boolean to allow/disallow client logins
-directly (true) or via a matrix.to link (false).
+`CACTUS_LOGIN_ENABLED` (true or false) Boolean to allow/disallow client logins directly (true) or via a matrix.to link (false).
+
 `CACTUS_PAGE_SIZE` (integer) A number for the number of comments to show per page
+
 `CACTUS_GUEST_POSTING` (true or false) Boolean to allow/disallow guest posting
-`CACTUS_UPDATE_INTERVAL` (integer) The number of seconds to auto-refresh the
-comments.  Zero or negative number disabled
-`CACTUS_HTML_DATA` (true or false) Option to display chat via HTML data
-attributes (true) or not (**false**)
+
+`CACTUS_UPDATE_INTERVAL` (integer) The number of seconds to auto-refresh the comments.  Zero or negative number disabled
+
+`CACTUS_HTML_DATA` (true or false) Option to display chat via HTML data attributes (true) or not (**false**)
 
 ## Article metadata variables
 
 You may disable chat integration on a single page by setting ``cactus_chat_disable`` to ``True`` in the article metadata.  The details for setting metadata varies depending on the document source, see [Pelican's documentation](https://docs.getpelican.com/en/4.5.4/content.html) for specifics.
 
 You may override the cactus chat section ID with ``cactus_comment_section_id`` in the metadata.  This allows you to optionally use the same chat for multiple pages, or to override the default name for things like fixing the difference in automatic generation from version 1 to 2 of poke.  See section below.
+
+### Additional Overrides
+as of poke version 2.1.3, the following settings may be overridden in the
+content metadata:
+
+`cactus_page_size`
+
+`cactus_login_disabled`
+
+`cactus_guest_posting_enabled`
+
+`cactus_update_interval`
 
 ### RestructuredText
 

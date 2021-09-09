@@ -88,7 +88,7 @@ else
 fi
 echo
 
-########## base.html injection logic ########## 
+########## base.html injection logic ##########
 # Attempt to do the template modifies with cactus comment stuff
 # We've already checked for file existance above, so we can assume that sed'ing it will be fine at this point
 if [ ! $THEME_MODIFIED ]; then
@@ -108,7 +108,7 @@ if [ ! $THEME_MODIFIED ]; then
 fi
 echo
 
-########## article.html injection logic ########## 
+########## article.html injection logic ##########
 if [ ! $THEME_MODIFIED ]; then
     echo -n "Attempting to inject the comment div in $ARTICLE_HTML: "
     # Search for the DISQUS_SITENAME if statement common in themes, and inject the cactus if statement before that match
